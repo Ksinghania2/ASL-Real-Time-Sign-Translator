@@ -1,19 +1,19 @@
-# Real-Time American Sign Language (ASL) Translation Engine
+# Real-Time ASL Letter Recognition Prototype
 
-A high-performance computer vision and deep learning translation engine engineered in Python to parse live camera video streams and translate American Sign Language (ASL) gestures into real-time alphanumeric text and speech output.
+A Python webcam demo that runs a saved TensorFlow/Keras image model on a hand region and displays a predicted ASL alphabet class. The script includes a short history-based stabilizer and can send eligible stable letter predictions to a separate text-to-speech process.
 
-The architecture integrates high-speed matrix pre-processing pipelines with convolutional neural network ingestion models, using asynchronous multi-threaded audio execution to eliminate frame freezing during real-time inference.
+## Requirements
 
-## Architectural Framework
+Install the packages listed in `requirements.txt`. The script expects a webcam available as camera device `0` and a model file named `asl_image_model.keras` in the current working directory. That model file is not included in this repository; provide a compatible trained model before running the application.
 
-1. Video Frame Ingestion: Leverages OpenCV to manage native hardware camera streams, capturing dynamic matrices at high frame rates for active spatial analysis.
-2. Color-Space and Matrix Normalization: Maps incoming frame matrices from native OpenCV `BGR` patterns into standard `RGB` arrays to match training requirements. Pixel values are downscaled to floating-point values between `0.0` and `1.0`.
-3. Region of Interest (ROI) Isolation: Restricts matrix evaluations to a dedicated bounding region to minimize environmental noise and decrease computational inference overhead.
-4. Asynchronous Speech Synthesis: Deploys background worker threads to execute text-to-speech rendering, ensuring the visual processing stream never suffers from processing lag.
+## Run
 
-## Deployment and Verification
-
-### 1. Environment Setup
-Install the necessary computer vision and deep learning dependencies:
 ```bash
-pip3 install -r requirements.txt
+python asl_translator.py
+```
+
+Press `q` in the OpenCV window to exit. The configured output classes are `A` through `Z`, `del`, `nothing`, and `space`; speech is queued for eligible letter predictions only.
+
+## Scope and limitations
+
+This is an experimental webcam application, not a complete sign-language translator. Its output depends on the external model, its training data, camera framing, and lighting. It recognizes isolated configured classes and does not interpret continuous signed language, grammar, or sentence meaning. Confidence thresholds and frame smoothing are heuristics, not accuracy guarantees.
